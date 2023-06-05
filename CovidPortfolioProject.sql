@@ -5,9 +5,9 @@ ORDER BY 3,4
 
 -- Select Data that we are going to be using
 
---SELECT Location, date, total_cases, new_cases, total_deaths, population
---FROM PortfolioProject..CovidDeaths
---ORDER BY 1,2
+SELECT Location, date, total_cases, new_cases, total_deaths, population
+FROM PortfolioProject..CovidDeaths
+ORDER BY 1,2
 
 
 -- Looking at Total Cases vs. Total Deaths
