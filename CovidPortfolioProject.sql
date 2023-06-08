@@ -133,7 +133,7 @@ FROM #PercentPopulationVaccinated
 
 --Creating View to store data for later visualizations
 
-CREATE VIEW PercentPopulationVaccinated AS
+CREATE VIEW RollingPopulationVaccinated AS
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(cast(vac.new_vaccinations AS FLOAT)) 
 OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
@@ -146,4 +146,59 @@ WHERE dea.continent IS NOT NULL
 --ORDER BY 2,3
 
 SELECT * 
+FROM RollingPopulationVaccinated
+
+
+CREATE VIEW TotalDeathCount AS
+SELECT continent, MAX(cast (total_deaths as int)) AS TotalDeathCount
+FROM PortfolioProject..CovidDeaths
+WHERE continent is not NULL
+GROUP BY continent
+--ORDER BY TotalDeathCount DESC
+
+SELECT *
+FROM TotalDeathCount
+
+
+CREATE VIEW PercentPopulationVaccinated AS
+WITH PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
+AS
+(
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(cast(vac.new_vaccinations AS FLOAT)) 
+OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date)
+AS RollingPeopleVaccinated
+FROM PortfolioProject..CovidDeaths dea
+JOIN PortfolioProject..CovidVaccinations vac
+	ON dea.location = vac.location
+	AND dea.date = vac.date
+WHERE dea.continent IS NOT NULL
+--ORDER BY 2,3
+)
+SELECT *, (RollingPeopleVaccinated/Population)*100 AS PercentPopulationVaccinated
+FROM PopvsVac
+
+SELECT *
 FROM PercentPopulationVaccinated
+
+
+CREATE VIEW HighestDeathLocation AS
+SELECT Location, MAX(cast (total_deaths as int)) AS TotalDeathCount
+FROM PortfolioProject..CovidDeaths
+WHERE continent is not NULL
+GROUP BY Location
+--ORDER BY TotalDeathCount DESC
+
+SELECT * 
+FROM HighestDeathLocation
+
+
+CREATE VIEW PercentPopulationInfected AS
+SELECT Location, population, MAX(total_cases) AS HighestInfectionCount, MAX((total_cases/population))*100 AS PercentPopulationInfected
+FROM PortfolioProject..CovidDeaths
+WHERE continent is not NULL
+GROUP BY Location, Population
+--ORDER BY PercentPopulationInfected DESC
+
+SELECT *
+FROM PercentPopulationInfected
