@@ -1,3 +1,5 @@
+--Putting together a table with everything i need for a visualisation in tableau
+
 SELECT
 	ord.order_id,
 	CONCAT(cus.first_name,' ', cus.last_name) AS customers,
