@@ -14,7 +14,7 @@ FROM [dbo].[telecom_customer_churn]
 WHERE [Customer Status] = 'Churned'
 
 
---What is the customer profile for a customer that churned, joined, and stayed? Are they different?
+--How are the customers that churned, joined, and stayed divided among the offers/contracts?
 --Looking at the Offer
 
 WITH Joined AS
@@ -124,7 +124,7 @@ ORDER BY
 	count_churned DESC
 
 
---4. Is the company losing high value customers? If so, how can they retain them?
+--Is the company losing high value customers? If so, how can they retain them?
 --Looking at Churn Category
 --Treating all Customers above the average revenue as high value customers
 
@@ -134,8 +134,8 @@ SELECT
 FROM [dbo].[telecom_customer_churn]
 WHERE [Customer Status] = 'Churned' 
 AND [Total Revenue] > (SELECT 
-							AVG([Total Revenue]) 
-						FROM [dbo].[telecom_customer_churn])
+			AVG([Total Revenue]) 
+			FROM [dbo].[telecom_customer_churn])
 GROUP BY 
 	[Churn Category]
 ORDER BY	
@@ -150,8 +150,8 @@ SELECT
 FROM [dbo].[telecom_customer_churn]
 WHERE [Customer Status] = 'Churned'
 AND [Total Revenue] > (SELECT 
-							AVG([Total Revenue]) 
-						FROM [dbo].[telecom_customer_churn])
+			AVG([Total Revenue]) 
+			FROM [dbo].[telecom_customer_churn])
 GROUP BY 
 	[Churn Reason]
 ORDER BY	
