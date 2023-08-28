@@ -86,4 +86,4 @@ SELECT
 FROM 
 	staff_rev
 WHERE 
-	no_staff < 0 AND [growth_%] > 0 --filtering the outcome so that only companies with a staff DEcrease and a growth INcrease are getting counted
+	no_staff < 0 AND [growth_%] > 0 --filtering the outcome so that only companies with a staff DEcrease and a growth INcrease are being counted
