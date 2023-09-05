@@ -70,14 +70,14 @@ order by
 --i need to add an extra column to the sales table that represents the quarters of the year
 
 alter table toy_sales
-add Quarter nvarchar(50) --creating a new column in the toy_sales table that is names 'Quarter'
+add Quarter nvarchar(50) --creating a new column in the toy_sales table that is named 'Quarter'
 
 update toy_sales
 set quarter = 'Q1' --marking every month in the first quarter with 'Q1' 
 where date between '2017-01-01' and '2017-03-31' or date between '2018-01-01' and '2018-03-31'
 
 update toy_sales
-set quarter = 'Q2' --marking every month in the secont quarter with 'Q2'
+set quarter = 'Q2' --marking every month in the second quarter with 'Q2'
 where date between '2017-04-01' and '2017-06-30' or date between '2018-04-01' and '2018-06-30'
 
 update toy_sales
